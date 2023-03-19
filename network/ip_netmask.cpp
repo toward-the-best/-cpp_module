@@ -84,5 +84,12 @@ int main() {
                   << std::endl;
     }
 
+    if (check_ipv6_network("2001:db8:1234:5678::1",
+                           "2001:db8:1234:5678::", 64)) {
+        std::cout << "IPv6 address is in network range" << std::endl;
+    } else {
+        std::cout << "IPv6 address is not in network range" << std::endl;
+    }
+
     return 0;
 }
