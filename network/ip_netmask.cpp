@@ -2,6 +2,54 @@
 #include <cstring>
 #include <iostream>
 
+#include <arpa/inet.h>
+#include <cstring>
+#include <iostream>
+#include <net/if.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+
+bool check_ipv6_network(const char *ipv6_address_str,
+                        const char *network_address_str, int netmask_len) {
+    // Create a socket address structure for the IPv6 address
+    struct sockaddr_in6 ipv6_address;
+    std::memset(&ipv6_address, 0, sizeof(ipv6_address));
+    ipv6_address.sin6_family = AF_INET6;
+    if (inet_pton(AF_INET6, ipv6_address_str, &ipv6_address.sin6_addr) != 1) {
+        std::cerr << "Invalid IPv6 address: " << ipv6_address_str << std::endl;
+        return false;
+    }
+
+    // Create a socket address structure for the network address
+    struct sockaddr_in6 network_address;
+    std::memset(&network_address, 0, sizeof(network_address));
+    network_address.sin6_family = AF_INET6;
+    if (inet_pton(AF_INET6, network_address_str, &network_address.sin6_addr) !=
+        1) {
+        std::cerr << "Invalid network address: " << network_address_str
+                  << std::endl;
+        return false;
+    }
+
+    // Apply the netmask to the network address
+    for (int i = 0; i < netmask_len; i++) {
+        int byte_index = i / 8;
+        int bit_index = i % 8;
+        network_address.sin6_addr.s6_addr[byte_index] &=
+            ~(1 << (7 - bit_index));
+    }
+
+    // Compare the masked IPv6 address to the masked network address
+    for (int i = 0; i < 16; i++) {
+        if (ipv6_address.sin6_addr.s6_addr[i] !=
+            network_address.sin6_addr.s6_addr[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 std::string getNetwork(const std::string ip_addr_str,
                        const std::string netmask_str) {
     try {
