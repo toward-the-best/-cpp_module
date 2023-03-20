@@ -1,10 +1,6 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <iostream>
-
-#include <arpa/inet.h>
-#include <cstring>
-#include <iostream>
 #include <net/if.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
