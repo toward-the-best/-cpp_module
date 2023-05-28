@@ -12,7 +12,8 @@ LINK_DIRECTORIES(
 )
 
 LINK_LIBRARIES(
-    boost_filesystem
+#    boost_filesystem
 )
 
-add_executable(MyProgram main.cpp)
+add_executable(ex_filesystem main.cpp)
+target_link_libraries(ex_filesystem boost_filesystem)
