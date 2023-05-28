@@ -15,5 +15,5 @@ LINK_LIBRARIES(
 #    boost_filesystem
 )
 
-add_executable(ex_filesystem main.cpp)
+add_executable(ex_filesystem ex_filesystem.cpp)
 target_link_libraries(ex_filesystem boost_filesystem)
