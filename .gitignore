@@ -3,4 +3,6 @@ CMakeCache.txt
 CMakeFiles/
 Makefile
 compile_commands.json
+*.json
+build/
 boost-example/thirdparty/boost_1_82_0/
