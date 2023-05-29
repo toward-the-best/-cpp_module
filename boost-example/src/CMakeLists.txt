@@ -17,11 +17,14 @@ LINK_LIBRARIES(
 #    boost_filesystem
 )
 
-add_executable(ex_filesystem ex_filesystem.cpp)
-target_link_libraries(ex_filesystem boost_filesystem)
+#add_executable(ex_filesystem ex_filesystem.cpp)
+#target_link_libraries(ex_filesystem boost_filesystem)
 
-add_executable(ex_thread ex_thread.cpp)
-target_link_libraries(ex_thread boost_thread)
+#add_executable(ex_thread ex_thread.cpp)
+#target_link_libraries(ex_thread boost_thread)
 
-add_executable(ex_webserver ex_webserver.cpp)
-target_link_libraries(ex_webserver boost_thread)
+add_executable(ex_thread_v2 ex_thread_v2.cpp)
+target_link_libraries(ex_thread_v2 pthread)
+
+#add_executable(ex_webserver ex_webserver.cpp)
+#target_link_libraries(ex_webserver boost_thread)
