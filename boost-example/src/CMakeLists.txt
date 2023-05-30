@@ -1,8 +1,8 @@
 project(BoostExample)
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.16)
 
-add_compile_options(-std=c++11 -ggdb3 -O3 -Wall -Werror -fPIE)
+add_compile_options(-std=c++17 -ggdb3 -O3 -Wall -Werror -fPIE)
 
 #find_package(Boost 1.82 REQUIRED COMPONENTS system filesystem)
 INCLUDE_DIRECTORIES(
