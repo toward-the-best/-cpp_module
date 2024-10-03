@@ -70,6 +70,17 @@ private:
     void threadFunc(std::stop_token stopToken) {
         while (true) {
             std::unique_lock<std::mutex> lock(mutex_);
+            // cv.wait 동작 방식
+            // 조건 변수 대기:
+            //   wait 함수가 호출되면, 현재 스레드는 대기 상태로 전환됩니다.
+            //   이때, 뮤텍스는 자동으로 해제되어 다른 스레드가 공유 자원에 접근할 수 있게 됩니다.
+            // 알림 수신:
+            //   다른 스레드가 notify_one() 또는 notify_all()을 호출하여 조건 변수를 알립니다.
+            //   스레드는 깨워지지만, 즉시 실행되지 않고 다시 뮤텍스를 잠그고 프레디케이트평가 합니다.
+            // 프레디케이트 평가:
+            //   wait 함수는 프레디케이트를 호출하여 조건을 평가합니다.
+            //   프레디케이트가 true를 반환하면, wait 함수는 반환되고 스레드는 실행을 계속합니다.(뮤텍스는 잠긴 상태)
+            //   프레디케이트가 false를 반환하면, 스레드는 다시 대기 상태로 전환되며, 뮤텍스는 해제됩니다. (계속 대시)
             // 조건 변수 대기: running_ 이고 paused_ 가 아니며, 종료 요청이 없을 때 실행
             cv_.wait(lock, [this, &stopToken]() {
                 return (running_ && !paused_) || terminate_ || stopToken.stop_requested();
@@ -80,6 +91,7 @@ private:
                 break;
             }
 
+            // mutext_가 잠겨있으므로 해제해주어야 한다.
             lock.unlock();
 
             // Lambda 함수 실행
